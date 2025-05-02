@@ -406,7 +406,6 @@
             from { opacity: 1; }
             to { opacity: 0; }
         }
-<<<<<<< HEAD
      /* Adicionar novos estilos para os checkmarks */
      .message-status {
             display: inline-flex;
@@ -443,9 +442,6 @@
             <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"/>
         </symbol>
     </svg>
-=======
-    </style>
->>>>>>> 36c3c12ac0c4871db4a393a640cae884f1547e28
 </head>
 <body>
     <div class="support-container">
@@ -476,12 +472,8 @@
     </div>
 
     <script>
-<<<<<<< HEAD
        
        // Estados do widget
-=======
-        // Estados do widget
->>>>>>> 36c3c12ac0c4871db4a393a640cae884f1547e28
         const states = {
             MAIN_MENU: 'mainMenu',
             CHAT_FORM: 'chatForm',
@@ -494,12 +486,8 @@
         const supportContent = document.getElementById('supportContent');
         const inputArea = document.getElementById('inputArea');
         let userData = {};
-<<<<<<< HEAD
         let chatId = localStorage.getItem('chat_id') || null;
 
-=======
-        
->>>>>>> 36c3c12ac0c4871db4a393a640cae884f1547e28
         // Configurações (substitua com suas configurações reais)
         const SUPABASE_URL = 'https://uazfmqkmuqmwuubfwtst.supabase.co';
         const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVhemZtcWttdXFtd3V1YmZ3dHN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY3ODgyNzcsImV4cCI6MjA1MjM2NDI3N30.RCNwxhkEDKpn3hJFnUnm832UOIJmU3wraGvKbp_n2XY';
@@ -507,7 +495,6 @@
         const APP_ID = 'app_123456';
         const SECRET_KEY = 'UP421318';
         const WEBHOOK_URL_SUP = 'https://n8n.panda42.com.br/webhook/suporte-chamado-bug';
-<<<<<<< HEAD
         const WEBHOOK_URL_GET = 'https://n8n.panda42.com.br/webhook/get-messages';
         // Gerador de UUID
         function generateUUID() {
@@ -516,8 +503,6 @@
                     (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
                 );
         }
-=======
->>>>>>> 36c3c12ac0c4871db4a393a640cae884f1547e28
         
         // Inicializa o widget
         function initWidget() {
@@ -644,7 +629,6 @@
         
         // Renderiza o chat
         function renderChat() {
-<<<<<<< HEAD
     currentState = states.CHAT;
     inputArea.style.display = 'flex';
     
@@ -668,29 +652,6 @@
     checkForSupportMessages();
     document.getElementById('messageInput')?.focus();
 }
-=======
-            currentState = states.CHAT;
-            inputArea.style.display = 'flex';
-            
-            supportContent.innerHTML = `
-                <div class="back-link" onclick="renderMainMenu()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 18L9 12L15 6" stroke="#4285F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Voltar
-                </div>
-                
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message message-support">
-                        <div class="message-bubble support-bubble">Olá ${userData.name}! Como posso ajudar você hoje?</div>
-                        <span class="message-time">${formatTime(new Date())}</span>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('messageInput')?.focus();
-        }
->>>>>>> 36c3c12ac0c4871db4a393a640cae884f1547e28
         
         // Formulário de chamado (com campos adicionais)
         function renderOpenTicket() {
@@ -951,7 +912,6 @@
             } catch (error) {
                 hideLoading();
                 console.error('Error:', error);
-<<<<<<< HEAD
                 alert('Ocorreu um erro ao enviar o bug report.');
             }
         }
@@ -1068,53 +1028,11 @@ async function checkForSupportMessages() {
         // ... (manter todas as outras funções existentes) ...
 
         // Atualizar os event listeners para usar a nova função sendMessage
-=======
-                alert('Ocorreu um erro ao enviar o reporte de bug.');
-            }
-        }
-        
-        // Enviar mensagem no chat
->>>>>>> 36c3c12ac0c4871db4a393a640cae884f1547e28
         document.getElementById('sendButton')?.addEventListener('click', sendMessage);
         document.getElementById('messageInput')?.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') sendMessage();
         });
         
-<<<<<<< HEAD
-=======
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const message = input.value.trim();
-            
-            if (message) {
-                const chatMessages = document.getElementById('chatMessages');
-                const time = formatTime(new Date());
-                
-                chatMessages.innerHTML += `
-                    <div class="message message-user">
-                        <div class="message-bubble user-bubble">${message}</div>
-                        <span class="message-time">${time}</span>
-                    </div>
-                `;
-                
-                input.value = '';
-                
-                // Simular resposta do suporte
-                setTimeout(() => {
-                    chatMessages.innerHTML += `
-                        <div class="message message-support">
-                            <div class="message-bubble support-bubble">Recebemos sua mensagem. Em breve retornaremos!</div>
-                            <span class="message-time">${formatTime(new Date())}</span>
-                        </div>
-                    `;
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }, 1000);
-                
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-        }
-        
->>>>>>> 36c3c12ac0c4871db4a393a640cae884f1547e28
         // Inicialização
         window.onload = initWidget;
     </script>
