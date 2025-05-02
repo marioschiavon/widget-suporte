@@ -19,7 +19,7 @@ const appId = scriptTag?.getAttribute('data-app-id') || 'default_app_id';
   container.id = 'panda-widget-container';
   
   const iframe = document.createElement('iframe');
-  iframe.src = `https://widget.panda42.com.br/widget-content?app_id=${encodeURIComponent(appId)}`;
+  iframe.src = `https://widget.panda42.com.br/widget-content.html?app_id=${encodeURIComponent(appId)}`;
   iframe.style.cssText = 'border:none;width:100%;height:100%;display:none;';
   iframe.title = 'Chat de Suporte Panda42';
   iframe.allow = 'microphone';
