@@ -8,8 +8,11 @@
     mobileBreakpoint: 768
   };
   // 🔥 Lê o appId do atributo do script
-  const scriptTag = document.currentScript;
-  const appId = scriptTag.getAttribute('data-app-id') || 'default_app_id';
+  const scriptTag = Array.from(document.getElementsByTagName('script'))
+  .find(s => s.src && s.src.includes('widget-loader.js'));
+
+const appId = scriptTag?.getAttribute('data-app-id') || 'default_app_id';
+
   
   // Cria elementos
   const container = document.createElement('div');
