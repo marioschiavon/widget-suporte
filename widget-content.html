@@ -492,7 +492,7 @@
         const SUPABASE_URL = 'https://uazfmqkmuqmwuubfwtst.supabase.co';
         const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVhemZtcWttdXFtd3V1YmZ3dHN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY3ODgyNzcsImV4cCI6MjA1MjM2NDI3N30.RCNwxhkEDKpn3hJFnUnm832UOIJmU3wraGvKbp_n2XY';
         const WEBHOOK_URL_CHAT = 'https://n8n.panda42.com.br/webhook/chat-message';
-        const APP_ID = 'app_123456';
+        const APP_ID = getAppIdFromUrl();
         const SECRET_KEY = 'UP421318';
         const WEBHOOK_URL_SUP = 'https://n8n.panda42.com.br/webhook/suporte-chamado-bug';
         const WEBHOOK_URL_GET = 'https://n8n.panda42.com.br/webhook/get-messages';
@@ -503,7 +503,10 @@
                     (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
                 );
         }
-        
+        function getAppIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('app_id') || 'default_app_id';
+        }
         // Inicializa o widget
         function initWidget() {
             renderMainMenu();
