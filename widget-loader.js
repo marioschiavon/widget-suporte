@@ -36,8 +36,8 @@
     position: fixed;
     bottom: 30px;
     ${config.buttonPosition}: 30px;
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: ${config.buttonColor};
     border: none;
