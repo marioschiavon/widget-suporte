@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte ao Cliente</title>
+    <style>
+        :root {
+            --primary-color: #4285F4;
+            --secondary-color: #34A853;
+            --error-color: #EA4335;
+            --text-color: #333333;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #757575;
+            --white: #FFFFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--white);
+            color: var(--text-color);
+            line-height: 1.5;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        /* Container Principal */
+        .support-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .support-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        /* Cabeçalho */
+        .support-header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .support-status {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .online {
+            background-color: var(--secondary-color);
+            box-shadow: 0 0 8px var(--secondary-color);
+        }
+        
+        /* Menu Principal Moderno */
+        .support-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 15px;
+        }
+        
+        .menu-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--medium-gray);
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .menu-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f8ff;
+            border-radius: 10px;
+            margin-right: 15px;
+        }
+        
+        .menu-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-color);
+        }
+        
+        .menu-content p {
+            font-size: 13px;
+            color: var(--dark-gray);
+        }
+        
+        .menu-arrow {
+            margin-left: auto;
+            color: var(--dark-gray);
+            font-weight: bold;
+        }
+        
+        /* Formulário de Pré-Chat */
+        .chat-form-container {
+            padding: 20px;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .form-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        
+        .form-subtitle {
+            font-size: 14px;
+            color: var(--dark-gray);
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-input:focus, .form-textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+        
+        .file-input {
+            width: 100%;
+            padding: 12px 0;
+        }
+        
+        .file-input-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .start-chat-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+        }
+        
+        .start-chat-button:hover {
+            background-color: #3367d6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(66, 133, 244, 0.4);
+        }
+        
+        .start-chat-button svg {
+            margin-right: 10px;
+        }
+        
+        /* Área do Chat */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        
+        .message {
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .message-support {
+            align-items: flex-start;
+        }
+        
+        .message-user {
+            align-items: flex-end;
+        }
+        
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin-bottom: 4px;
+        }
+        
+        .support-bubble {
+            background-color: var(--light-gray);
+            border-radius: 0 18px 18px 18px;
+        }
+        
+        .user-bubble {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-radius: 18px 0 18px 18px;
+        }
+        
+        .message-time {
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+        
+        /* Área de Entrada */
+        .input-area {
+            display: flex;
+            padding: 10px;
+            background-color: var(--light-gray);
+            border-top: 1px solid var(--medium-gray);
+        }
+        
+        .message-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        .send-button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        /* Botões */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .button {
+            padding: 12px 20px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .button-secondary {
+            background-color: var(--light-gray);
+            color: var(--text-color);
+        }
+        
+        .button-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .button-error {
+            background-color: var(--error-color);
+            color: var(--white);
+        }
+        
+        /* Voltar */
+        .back-link {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            margin: 15px 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .back-link svg {
+            margin-right: 5px;
+        }
+
+        /* Loading Overlay */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            z-index: 9999;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            animation: fadeIn 0.3s, fadeOut 0.3s 2.7s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="support-container">
+        <!-- Cabeçalho -->
+        <div class="support-header">
+            <span>Suporte ao Cliente</span>
+            <div class="support-status">
+                <span class="status-dot online"></span>
+                <span>Online agora</span>
+            </div>
+        </div>
+        
+        <!-- Conteúdo Dinâmico -->
+        <div class="support-content" id="supportContent">
+            <!-- Será preenchido via JavaScript -->
+        </div>
+        
+        <!-- Rodapé (visível apenas no chat) -->
+        <div class="input-area" id="inputArea" style="display: none;">
+            <input type="text" class="message-input" id="messageInput" placeholder="Digite sua mensagem...">
+            <button class="send-button" id="sendButton">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Estados do widget
+        const states = {
+            MAIN_MENU: 'mainMenu',
+            CHAT_FORM: 'chatForm',
+            OPEN_TICKET: 'openTicket',
+            REPORT_BUG: 'reportBug',
+            CHAT: 'chat'
+        };
+        
+        let currentState = states.MAIN_MENU;
+        const supportContent = document.getElementById('supportContent');
+        const inputArea = document.getElementById('inputArea');
+        let userData = {};
+        
+        // Configurações (substitua com suas configurações reais)
+        const SUPABASE_URL = 'https://uazfmqkmuqmwuubfwtst.supabase.co';
+        const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVhemZtcWttdXFtd3V1YmZ3dHN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY3ODgyNzcsImV4cCI6MjA1MjM2NDI3N30.RCNwxhkEDKpn3hJFnUnm832UOIJmU3wraGvKbp_n2XY';
+        const WEBHOOK_URL_CHAT = 'https://n8n.panda42.com.br/webhook/chat-message';
+        const APP_ID = 'app_123456';
+        const SECRET_KEY = 'UP421318';
+        const WEBHOOK_URL_SUP = 'https://n8n.panda42.com.br/webhook/suporte-chamado-bug';
+        
+        // Inicializa o widget
+        function initWidget() {
+            renderMainMenu();
+            
+            // Comunicação com a página pai (se estiver em iframe)
+            window.addEventListener('message', function(e) {
+                if (e.data === 'widgetOpened') {
+                    renderMainMenu();
+                }
+            });
+        }
+        
+        // Renderiza o menu principal
+        function renderMainMenu() {
+            currentState = states.MAIN_MENU;
+            inputArea.style.display = 'none';
+            
+            supportContent.innerHTML = `
+                <div class="support-menu">
+                    <div class="menu-card" onclick="renderChatForm()">
+                        <div class="menu-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" 
+                                      stroke="#4285F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="menu-content">
+                            <h3>Iniciar Chat</h3>
+                            <p>Converse com nosso time em tempo real</p>
+                        </div>
+                        <div class="menu-arrow">→</div>
+                    </div>
+                    
+                    <div class="menu-card" onclick="renderOpenTicket()">
+                        <div class="menu-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 5V7M15 11V13M15 17V19M5 5C3.89543 5 3 5.89543 3 7V10C4.10457 10 5 10.8954 5 12C5 13.1046 4.10457 14 3 14V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V14C19.8954 14 19 13.1046 19 12C19 10.8954 19.8954 10 21 10V7C21 5.89543 20.1046 5 19 5L5 5Z" 
+                                      stroke="#34A853" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="menu-content">
+                            <h3>Abrir Chamado</h3>
+                            <p>Registre uma solicitação formal</p>
+                        </div>
+                        <div class="menu-arrow">→</div>
+                    </div>
+                    
+                    <div class="menu-card" onclick="renderReportBug()">
+                        <div class="menu-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 9V11M12 15H12.01M10 3H14C16.2091 3 18 4.79086 18 7C18 7.72857 17.8052 8.41165 17.4649 9M6.53513 9C6.19479 8.41165 6 7.72857 6 7C6 4.79086 7.79086 3 10 3M5 20H19C20.1046 20 21 19.1046 21 18V14C21 12.8954 20.1046 12 19 12C20.1046 12 21 11.1046 21 10V6C21 4.89543 20.1046 4 19 4H5C3.89543 4 3 4.89543 3 6V10C3 11.1046 3.89543 12 5 12C3.89543 12 3 12.8954 3 14V18C3 19.1046 3.89543 20 5 20Z" 
+                                      stroke="#EA4335" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="menu-content">
+                            <h3>Reportar Bug</h3>
+                            <p>Informe um problema técnico</p>
+                        </div>
+                        <div class="menu-arrow">→</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Renderiza o formulário de pré-chat
+        function renderChatForm() {
+            currentState = states.CHAT_FORM;
+            inputArea.style.display = 'none';
+            
+            supportContent.innerHTML = `
+                <div class="chat-form-container">
+                    <div class="back-link" onclick="renderMainMenu()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="#4285F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Voltar
+                    </div>
+                    
+                    <h3 class="form-title">Antes de começar</h3>
+                    <p class="form-subtitle">Preencha seus dados para iniciar o chat</p>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Seu Nome</label>
+                        <input type="text" class="form-input" id="chatUserName" placeholder="Como gostaria de ser chamado">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="chatUserEmail" placeholder="seu@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Telefone (opcional)</label>
+                        <input type="tel" class="form-input" id="chatUserPhone" placeholder="(00) 00000-0000">
+                    </div>
+                    
+                    <button class="start-chat-button" onclick="startChat()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" 
+                                  stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 10H8.01M12 10H12.01M16 10H16.01" 
+                                  stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Iniciar Chat
+                    </button>
+                </div>
+            `;
+        }
+        
+        // Inicia o chat após preencher formulário
+        function startChat() {
+            const name = document.getElementById('chatUserName').value;
+            const email = document.getElementById('chatUserEmail').value;
+            const phone = document.getElementById('chatUserPhone').value;
+            
+            if (name && email) {
+                userData = { name, email, phone };
+                renderChat();
+            } else {
+                alert('Por favor, preencha pelo menos nome e email');
+            }
+        }
+        
+        // Renderiza o chat
+        function renderChat() {
+            currentState = states.CHAT;
+            inputArea.style.display = 'flex';
+            
+            supportContent.innerHTML = `
+                <div class="back-link" onclick="renderMainMenu()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18L9 12L15 6" stroke="#4285F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Voltar
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message message-support">
+                        <div class="message-bubble support-bubble">Olá ${userData.name}! Como posso ajudar você hoje?</div>
+                        <span class="message-time">${formatTime(new Date())}</span>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('messageInput')?.focus();
+        }
+        
+        // Formulário de chamado (com campos adicionais)
+        function renderOpenTicket() {
+            currentState = states.OPEN_TICKET;
+            inputArea.style.display = 'none';
+            
+            supportContent.innerHTML = `
+                <div class="chat-form-container">
+                    <div class="back-link" onclick="renderMainMenu()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="#4285F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Voltar
+                    </div>
+                    
+                    <h3 class="form-title">Abrir Chamado</h3>
+                    <p class="form-subtitle">Preencha os detalhes da sua solicitação</p>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nome</label>
+                        <input type="text" class="form-input" id="ticketName" placeholder="Seu nome completo">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="ticketEmail" placeholder="seu@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Assunto</label>
+                        <input type="text" class="form-input" id="ticketSubject" placeholder="Resumo do problema">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Descrição</label>
+                        <textarea class="form-textarea" id="ticketDescription" placeholder="Descreva seu problema com detalhes"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Anexar imagem (opcional)</label>
+                        <input type="file" class="file-input" id="ticketImage" accept="image/*">
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="button button-secondary" onclick="renderMainMenu()">Cancelar</button>
+                        <button class="button button-primary" onclick="submitTicket()">Enviar Chamado</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Formulário de bug (com campos adicionais)
+        function renderReportBug() {
+            currentState = states.REPORT_BUG;
+            inputArea.style.display = 'none';
+            
+            supportContent.innerHTML = `
+                <div class="chat-form-container">
+                    <div class="back-link" onclick="renderMainMenu()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="#4285F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Voltar
+                    </div>
+                    
+                    <h3 class="form-title">Reportar Bug</h3>
+                    <p class="form-subtitle">Ajude-nos a melhorar relatando problemas</p>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nome</label>
+                        <input type="text" class="form-input" id="bugName" placeholder="Seu nome">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="bugEmail" placeholder="seu@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Descrição do Bug</label>
+                        <textarea class="form-textarea" id="bugDescription" placeholder="Descreva o bug encontrado"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Passos para Reproduzir</label>
+                        <textarea class="form-textarea" id="bugSteps" placeholder="Como podemos reproduzir este bug?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Comportamento Esperado</label>
+                        <textarea class="form-textarea" id="bugExpected" placeholder="O que deveria acontecer?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Anexar imagem (opcional)</label>
+                        <input type="file" class="file-input" id="bugImage" accept="image/*">
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="button button-secondary" onclick="renderMainMenu()">Cancelar</button>
+                        <button class="button button-error" onclick="submitBug()">Reportar Bug</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Funções auxiliares
+        function formatTime(date) {
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        // Função para mostrar loading
+        function showLoading(message) {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loadingOverlay';
+            loadingDiv.innerHTML = `
+                <div class="spinner"></div>
+                <div>${message || 'Processando...'}</div>
+            `;
+            document.body.appendChild(loadingDiv);
+        }
+        
+        // Função para esconder loading
+        function hideLoading() {
+            const loading = document.getElementById('loadingOverlay');
+            if (loading) loading.remove();
+        }
+        
+        // Função para mostrar mensagem de sucesso
+        function showSuccessMessage(type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'success-message';
+            messageDiv.textContent = type === 'ticket' 
+                ? 'Chamado enviado com sucesso!' 
+                : 'Bug reportado com sucesso!';
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 3000);
+        }
+        
+        // Função para upload de imagem
+        async function uploadImage(file) {
+            if (!file) return null;
+            
+            const filePath = `suporte/${Date.now()}_${file.name}`;
+            
+            try {
+                const response = await fetch(`${SUPABASE_URL}/storage/v1/object/upevolution/${filePath}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${SUPABASE_API_KEY}`,
+                        'Content-Type': file.type
+                    },
+                    body: file
+                });
+
+                if (!response.ok) throw new Error('Erro ao fazer upload da imagem.');
+                return `${SUPABASE_URL}/storage/v1/object/upevolution/${filePath}`;
+            } catch (error) {
+                console.error('Upload error:', error);
+                return null;
+            }
+        }
+        
+        // Enviar chamado
+        async function submitTicket() {
+            const name = document.getElementById('ticketName').value;
+            const email = document.getElementById('ticketEmail').value;
+            const subject = document.getElementById('ticketSubject').value;
+            const description = document.getElementById('ticketDescription').value;
+            const imageFile = document.getElementById('ticketImage').files[0];
+            
+            if (!name || !email || !subject || !description) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            showLoading('Enviando chamado...');
+            
+            try {
+                const imageUrl = await uploadImage(imageFile);
+                
+                const response = await fetch(WEBHOOK_URL_SUP, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'ticket',
+                        user_name: name,
+                        user_email: email,
+                        subject: subject,
+                        description: description,
+                        image_url: imageUrl,
+                        app_id: APP_ID,
+                        secret_key: SECRET_KEY
+                    })
+                });
+                
+                hideLoading();
+                
+                if (response.ok) {
+                    showSuccessMessage('ticket');
+                    renderMainMenu();
+                } else {
+                    alert('Erro ao enviar chamado. Por favor, tente novamente.');
+                }
+            } catch (error) {
+                hideLoading();
+                console.error('Error:', error);
+                alert('Ocorreu um erro ao enviar o chamado.');
+            }
+        }
+        
+        // Enviar bug report
+        async function submitBug() {
+            const name = document.getElementById('bugName').value;
+            const email = document.getElementById('bugEmail').value;
+            const description = document.getElementById('bugDescription').value;
+            const steps = document.getElementById('bugSteps').value;
+            const expected = document.getElementById('bugExpected').value;
+            const imageFile = document.getElementById('bugImage').files[0];
+            
+            if (!name || !email || !description) {
+                alert('Por favor, preencha os campos obrigatórios.');
+                return;
+            }
+            
+            showLoading('Enviando reporte de bug...');
+            
+            try {
+                const imageUrl = await uploadImage(imageFile);
+                
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'bug',
+                        user_name: name,
+                        user_email: email,
+                        description: description,
+                        steps_to_reproduce: steps,
+                        expected_behavior: expected,
+                        image_url: imageUrl,
+                        app_id: APP_ID,
+                        secret_key: SECRET_KEY
+                    })
+                });
+                
+                hideLoading();
+                
+                if (response.ok) {
+                    showSuccessMessage('bug');
+                    renderMainMenu();
+                } else {
+                    alert('Erro ao enviar reporte de bug. Por favor, tente novamente.');
+                }
+            } catch (error) {
+                hideLoading();
+                console.error('Error:', error);
+                alert('Ocorreu um erro ao enviar o reporte de bug.');
+            }
+        }
+        
+        // Enviar mensagem no chat
+        document.getElementById('sendButton')?.addEventListener('click', sendMessage);
+        document.getElementById('messageInput')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                const chatMessages = document.getElementById('chatMessages');
+                const time = formatTime(new Date());
+                
+                chatMessages.innerHTML += `
+                    <div class="message message-user">
+                        <div class="message-bubble user-bubble">${message}</div>
+                        <span class="message-time">${time}</span>
+                    </div>
+                `;
+                
+                input.value = '';
+                
+                // Simular resposta do suporte
+                setTimeout(() => {
+                    chatMessages.innerHTML += `
+                        <div class="message message-support">
+                            <div class="message-bubble support-bubble">Recebemos sua mensagem. Em breve retornaremos!</div>
+                            <span class="message-time">${formatTime(new Date())}</span>
+                        </div>
+                    `;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+        
+        // Inicialização
+        window.onload = initWidget;
+    </script>
+</body>
+</html>
