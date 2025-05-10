@@ -950,8 +950,10 @@
 
     // 2. Prepara os dados para enviar (mantendo a estrutura do Bubble)
     // Define o payload DINAMICAMENTE (dependendo se é a primeira mensagem)
-    const isFirstMessage = !chatId;
-    chatId = chatId || generateUUID();
+    const isNewChat = window.performance.navigation.type === 1 || !sessionStorage.getItem('chat_id');
+chatId = isNewChat ? generateUUID() : (sessionStorage.getItem('chat_id') || generateUUID());
+sessionStorage.setItem('chat_id', chatId);
+
     
     const payload = {
         chat_id: chatId,
