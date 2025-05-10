@@ -931,6 +931,11 @@
     const message = input.value.trim();
     if (!message) return;
 
+    // ✅ Correção: Defina isFirstMessage corretamente
+    const isFirstMessage = !sessionStorage.getItem('chat_id');
+    chatId = sessionStorage.getItem('chat_id') || generateUUID();
+    sessionStorage.setItem('chat_id', chatId);
+
     const chatMessages = document.getElementById('chatMessages');
     const time = formatTime(new Date());
 
@@ -955,7 +960,7 @@ chatId = isNewChat ? generateUUID() : (sessionStorage.getItem('chat_id') || gene
 sessionStorage.setItem('chat_id', chatId);
 
     
-    const payload = {
+     const payload = {
         chat_id: chatId,
         message: message,
         secret_key: SECRET_KEY,
@@ -968,7 +973,6 @@ sessionStorage.setItem('chat_id', chatId);
         payload.user_name = userData.name || 'Anônimo';
         payload.user_email = userData.email || '';
         payload.user_phone = userData.phone || '';
-        localStorage.setItem('chat_id', chatId); // Armazena o chat_id
     }
 
     try {
